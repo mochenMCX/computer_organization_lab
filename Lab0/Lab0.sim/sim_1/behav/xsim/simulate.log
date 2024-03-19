@@ -1,0 +1,74 @@
+Time resolution is 1 ps
+***************************************************
+
+   Pattern           0 is wrong! 
+   Your diff = z, golden = 0 
+   Your borrow = z, golden = 0 
+
+***************************************************
+
+***************************************************
+
+   Pattern           1 is wrong! 
+   Your diff = z, golden = 1 
+   Your borrow = z, golden = 1 
+
+***************************************************
+
+***************************************************
+
+   Pattern           2 is wrong! 
+   Your diff = z, golden = 1 
+   Your borrow = z, golden = 1 
+
+***************************************************
+
+***************************************************
+
+   Pattern           3 is wrong! 
+   Your diff = z, golden = 0 
+   Your borrow = z, golden = 1 
+
+***************************************************
+
+***************************************************
+
+   Pattern           4 is wrong! 
+   Your diff = z, golden = 1 
+   Your borrow = z, golden = 0 
+
+***************************************************
+
+***************************************************
+
+   Pattern           5 is wrong! 
+   Your diff = z, golden = 0 
+   Your borrow = z, golden = 0 
+
+***************************************************
+
+***************************************************
+
+   Pattern           6 is wrong! 
+   Your diff = z, golden = 0 
+   Your borrow = z, golden = 0 
+
+***************************************************
+
+***************************************************
+
+   Pattern           7 is wrong! 
+   Your diff = z, golden = 1 
+   Your borrow = z, golden = 1 
+
+***************************************************
+
+***************************************************
+
+   Pattern           8 is wrong! 
+   Your diff = z, golden = 0 
+   Your borrow = z, golden = 0 
+
+***************************************************
+
+$finish called at time : 85 ns : File "D:/user/Downloads/CO_Lab0/testbench.v" Line 156
