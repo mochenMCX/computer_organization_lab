@@ -1,5 +1,5 @@
 `timescale 1ns / 1ps
-// <your student id>
+// <your student id> 111550088
 
 /* checkout FIGURE C.5.12 */
 /** [Prerequisite] complete bit_alu.v & msb_alu.v
@@ -68,5 +68,11 @@ module alu (
      * 10. `overflow` is already wired.
      * 11. You need another logic for `zero` output.
      */
-
+    assign less[31:1]= 0;
+    assign less[0] = (ALU_ctl == 0111) & (a<b);
+    assign a_invert = (ALU_ctl[3] == 1)? 32'b1 : 32'b0;
+    assign b_invert = (ALU_ctl[2] == 1)? 32'b1 : 32'b0;
+    assign carry_in[31:1] = carry_out[30:0];
+    assign carry_in[0] = ALU_ctl[2] == 1;
+    assign zero = ~(|(result));
 endmodule

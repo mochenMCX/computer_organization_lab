@@ -15,7 +15,14 @@ module msb_bit_alu (
     output       set,        // 1 bit, Set
     output       overflow    // 1 bit, Overflow
 );
-
+    wire ai, bi, carry_out;
+    assign ai = (a_invert == 1)? ~a: a;
+    assign bi = (b_invert == 1)? ~b : b;
+    
+    assign carry_out = ((ai & bi) | (ai & carry_in) | (bi & carry_in)) & (operation == 2'b10);
+    assign overflow = (operation == 2'b10) & ~(ai ^ bi) & (ai ^ carry_out);
+    assign set = carry_out;
+    assign result = ((operation == 2'b10) & (ai ^ bi ^ carry_in)) | ((operation == 2'b00) & (ai & bi)) | ((operation == 2'b01) & (ai | bi));
     /* Try to implement the most significant bit ALU by yourself! */
 
 endmodule

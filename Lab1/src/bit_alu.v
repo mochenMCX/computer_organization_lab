@@ -28,7 +28,7 @@ module bit_alu (
      * https://www.chipverify.com/verilog/verilog-full-adder
      */
     wire sum;
-    assign carry_out = (ai & bi)|(bi & carry_in)|(ai & carry_in);
+    assign carry_out = ((ai & bi)|(bi & carry_in)|(ai & carry_in)) & (operation == 2'b10);
     assign sum       = ai ^ bi ^ carry_in;
 
     /* [step 3] using a mux to assign result */
@@ -37,7 +37,7 @@ module bit_alu (
             2'b00:   result <= ai & bi;  // AND
             2'b01:   result <= ai | bi;  // OR
             2'b10:   result <= sum;  // ADD
-            2'b11:   result <= (ai < bi); // SLT
+            2'b11:   result <= less; // SLT
             default: result <= 0;  // should not happened
         endcase
     end
