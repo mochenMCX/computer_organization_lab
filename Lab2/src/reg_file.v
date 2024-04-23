@@ -1,7 +1,7 @@
 `timescale 1ns / 1ps
 // <your student id> 111550088
 
-/* checkout FIGURE 4.7 */
+/* Copy your Register File from Lab 1 */
 module reg_file (
     input         clk,          // clock
     input         rstn,         // negative reset

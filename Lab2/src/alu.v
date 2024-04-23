@@ -1,12 +1,7 @@
 `timescale 1ns / 1ps
 // <your student id> 111550088
 
-/* checkout FIGURE C.5.12 */
-/** [Prerequisite] complete bit_alu.v & msb_alu.v
- * We recommend you to design a 32-bit ALU with 1-bit ALU.
- * However, you can still implement ALU with more advanced feature in Verilog.
- * Feel free to code as long as the I/O ports remain the same shape.
- */
+/* Copy your ALU (and its components) from Lab 1 */
 module alu (
     input  [31:0] a,        // 32 bits, source 1 (A)
     input  [31:0] b,        // 32 bits, source 2 (B)
