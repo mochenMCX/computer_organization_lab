@@ -19,8 +19,8 @@ module reg_file (
 
     /* [step 2] Read Registers */
     /* Remember to check whether register number is zero */
-    assign read_data_1 = (read_reg_1 == 0)? 0 : registers[read_reg_1];
-    assign read_data_2 = (read_reg_2 == 0)? 0 : registers[read_reg_2];
+    assign read_data_1 = registers[read_reg_1];
+    assign read_data_2 = registers[read_reg_2];
 
     /** Sequential Logic
      * `posedge clk` means that this block will execute when clk changes from 0 to 1 (positive edge trigger).

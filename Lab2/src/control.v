@@ -28,16 +28,16 @@ module control (
     /* implement "combinational" logic satisfying requirements in FIGURE 4.18 */
     /* You can check the "Green Card" to get the opcode/funct for each instruction. */
 
- wire lw_op;
+ wire lw;
     assign lui_op = opcode == 6'b001111;
     assign ori_op = opcode == 6'b001101;
     assign jump = opcode == 6'b000010;
-    assign lw_op = opcode==6'b100011 | lui_op | ori_op;
+    assign lw = opcode==6'b100011 | lui_op | ori_op;
     assign reg_dst = opcode== 6'b000000;
-    assign alu_src = (lw_op || opcode==6'b101011);
-    assign mem_to_reg = lw_op;
-    assign reg_write = opcode == 6'b000000 ||lw_op;
-    assign mem_read = lw_op;
+    assign alu_src = (lw || opcode==6'b101011);
+    assign mem_to_reg = lw;
+    assign reg_write = opcode == 6'b000000 ||lw;
+    assign mem_read = lw;
     assign mem_write = opcode==6'b101011;
     assign branch = opcode == 6'b000100;
     assign alu_op[1] = opcode== 6'b000000;

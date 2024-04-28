@@ -209,7 +209,7 @@ module single_cycle #(
      */
 
     //for register file
-    assign reg_file_write_data = (lui_op)? upper: (ori_op)? (reg_file_read_data_1 | lower) : (mem_to_reg) ? data_mem_read_data : alu_result;
+    assign reg_file_write_data = (lui_op)? upper: ((ori_op)? (reg_file_read_data_1 | lower) : ((mem_to_reg) ? data_mem_read_data : alu_result));
     assign reg_file_reg_write = reg_write;
     assign reg_file_write_reg = (reg_dst == 0)?instr_mem_instr[20:16]:instr_mem_instr[15:11];
 
