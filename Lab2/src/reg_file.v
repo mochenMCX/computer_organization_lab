@@ -20,7 +20,7 @@ module reg_file (
     /* [step 2] Read Registers */
     /* Remember to check whether register number is zero */
     assign read_data_1 = (read_reg_1 == 0)? 0 : registers[read_reg_1];
-    assign read_data_2 = (read_reg_1 == 0)? 0 : registers[read_reg_2];
+    assign read_data_2 = (read_reg_2 == 0)? 0 : registers[read_reg_2];
 
     /** Sequential Logic
      * `posedge clk` means that this block will execute when clk changes from 0 to 1 (positive edge trigger).
@@ -30,14 +30,16 @@ module reg_file (
     /* [step 3] Write Registers */
     always @(posedge clk)
         if (rstn) begin  // make sure to check reset!
-            if (reg_write && write_reg > 0) begin
+            if (reg_write && write_reg != 5'b00000) begin
                 registers[write_reg] <= write_data;
             end
         end
-
+    integer i;
     /* [step 4] Reset Registers (wordy in Verilog, how about System Verilog?) */
     always @(negedge rstn) begin
-        for(integer i=0;i<32;i=i+1) registers[i] <= 0;
+        for(i=0;i<32;i=i+1) begin
+            registers[i] <= 0;
+        end
     end
     
 endmodule

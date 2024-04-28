@@ -16,21 +16,10 @@ module alu_control (
     input  [5:0] funct,     // Funct field
     output [3:0] operation  // Operation
 );
-    wire and1, and2, or1;
-    wire inv1, aluop1_inv, f2_inv;
     /* implement "combinational" logic satisfying requirements in FIGURE 4.12 */
-    AND
-        m1(and1, alu_op[1], funct[1]),
-        m2(operation[0], alu_op[1], or1),
-        m3(operation[3], alu_op[0], inv1);
-    OR
-        o1(or1, funct[3], funct[0]),
-        o2(operation[2], alu_op[0], and1),
-        o3(operation[1], aluop1_inv, f2_inv);
-
-    NOT
-        n1(inv1, alu_op[0]),
-        n2(f2_inv, funct[2]),
-        n3(aluop1_inv, alu_op[1]);
+    assign operation[3] = 0;
+    assign operation[2] = (funct[1] & alu_op[1]) | alu_op[0];
+    assign operation[1] = ~alu_op[1] | ~funct[2];
+    assign operation[0] = (funct[0] | funct[3]) & alu_op[1];
 
 endmodule

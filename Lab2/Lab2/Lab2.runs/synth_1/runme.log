@@ -1,0 +1,34 @@
+
+*** Running vivado
+    with args -log single_cycle.vds -m64 -product Vivado -mode batch -messageDb vivado.pb -notrace -source single_cycle.tcl
+
+
+ECHO 已關閉。
+ECHO 已關閉。
+
+****** Vivado v2023.1 (64-bit)
+  **** SW Build 3865809 on Sun May  7 15:05:29 MDT 2023
+  **** IP Build 3864474 on Sun May  7 20:36:21 MDT 2023
+  **** SharedData Build 3865790 on Sun May 07 13:33:03 MDT 2023
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2023 Advanced Micro Devices, Inc. All Rights Reserved.
+
+source single_cycle.tcl -notrace
+create_project: Time (s): cpu = 00:00:03 ; elapsed = 00:00:07 . Memory (MB): peak = 451.660 ; gain = 162.168
+Command: synth_design -top single_cycle -part xc7a12ticsg325-1L
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7a12ti'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7a12ti'
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 2 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 27976
+INFO: [Synth 8-11241] undeclared symbol 'RegWrite', assumed default net type 'wire' [D:/user/Desktop/for_lab/Lab2/src/control.v:37]
+ERROR: [Synth 8-10936] loop variable declaration is not allowed in this mode of Verilog [D:/user/Desktop/for_lab/Lab2/src/reg_file.v:40]
+INFO: [Synth 8-10285] module 'reg_file' is ignored due to previous errors [D:/user/Desktop/for_lab/Lab2/src/reg_file.v:43]
+INFO: [Synth 8-9084] Verilog file 'D:/user/Desktop/for_lab/Lab2/src/reg_file.v' ignored due to errors
+Failed to read verilog 'D:/user/Desktop/for_lab/Lab2/src/reg_file.v'
+INFO: [Common 17-83] Releasing license: Synthesis
+8 Infos, 0 Warnings, 0 Critical Warnings and 2 Errors encountered.
+synth_design failed
+ERROR: [Common 17-69] Command failed: Vivado Synthesis failed
+INFO: [Common 17-206] Exiting Vivado at Tue Apr 23 13:59:39 2024...

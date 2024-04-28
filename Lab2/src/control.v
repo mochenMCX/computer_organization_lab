@@ -19,23 +19,28 @@ module control (
     output       mem_read,    // enable read form data memory
     output       mem_write,   // enable write to data memory
     output       branch,      // this is a branch instruction or not (work with alu.zero)
-    output [1:0] alu_op       // ALUOp passed to ALU Control unit
+    output [1:0] alu_op,       // ALUOp passed to ALU Control unit
+    output       jump,
+    output      lui_op,
+    output      ori_op
 );
 
     /* implement "combinational" logic satisfying requirements in FIGURE 4.18 */
     /* You can check the "Green Card" to get the opcode/funct for each instruction. */
-    wire r_format, lw, sw, beq;
-    assign r_format = &(~opcode);
-    assign lw = opcode[5] & ~opcode[4] & ~opcode[3] & ~opcode[2] & opcode[1] & opcode[0];
-    assign sw = opcode[5] & ~opcode[4] & opcode[3] & ~opcode[2] & opcode[1] & opcode[0];
-    assign beq = ~opcode[5] & ~opcode[4] & ~opcode[3] & opcode[2] & ~opcode[1] & ~opcode[0];
 
-    assign reg_dst = r_format;
-    assign alu_src = lw | sw;
-    assign mem_to_reg = lw;
-    assign RegWrite = r_format | lw;
-    assign mem_read = lw;
-    assign mem_write = sw;
-    assign branch = beq;
-    assign alu_op = {r_format, beq};
+ wire lw_op;
+    assign lui_op = opcode == 6'b001111;
+    assign ori_op = opcode == 6'b001101;
+    assign jump = opcode == 6'b000010;
+    assign lw_op = opcode==6'b100011 | lui_op | ori_op;
+    assign reg_dst = opcode== 6'b000000;
+    assign alu_src = (lw_op || opcode==6'b101011);
+    assign mem_to_reg = lw_op;
+    assign reg_write = opcode == 6'b000000 ||lw_op;
+    assign mem_read = lw_op;
+    assign mem_write = opcode==6'b101011;
+    assign branch = opcode == 6'b000100;
+    assign alu_op[1] = opcode== 6'b000000;
+    assign alu_op[0] = opcode== 6'b000100;
+    
 endmodule

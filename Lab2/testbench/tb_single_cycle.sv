@@ -32,6 +32,7 @@ module tb_single_cycle #(
     assign reg_file     = single_cycle.reg_file.registers;
     assign instr_memory = single_cycle.instr_mem.memory;
     assign data_memory  = single_cycle.data_mem.memory;
+    
 
     /* entry of the testbench & record results */
     initial begin

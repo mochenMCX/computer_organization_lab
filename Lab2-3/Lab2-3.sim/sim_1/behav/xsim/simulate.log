@@ -1,0 +1,4 @@
+Time resolution is 1 ps
+#### tb_single_cycle.sv ####
+==== Test  0 RUNNING ====
+number of instructions: 29 , exit @ 0x00400074

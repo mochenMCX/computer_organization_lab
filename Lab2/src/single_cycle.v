@@ -87,7 +87,7 @@ module single_cycle #(
 
     /* (Main) Control */  // named without `control_` prefix!
     wire [5:0] opcode;
-    wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch;
+    wire reg_dst, alu_src, mem_to_reg, reg_write, mem_read, mem_write, branch, jump;
     wire [1:0] alu_op;
     control control (
         .opcode    (opcode),
@@ -98,7 +98,10 @@ module single_cycle #(
         .mem_read  (mem_read),
         .mem_write (mem_write),
         .branch    (branch),
-        .alu_op    (alu_op)
+        .alu_op    (alu_op),
+        .jump       (jump),
+        .lui_op      (lui_op),
+        .ori_op     (ori_op)
     );
 
     /** [step 1] Instruction Fetch
@@ -112,12 +115,10 @@ module single_cycle #(
      * After this stage, what does `instr_mem_instr` represents?
      */
     reg [31:0] pc;  // DO NOT change this line
-    reg [31:0] pc_add4;
+    wire [31:0] pc_add4;
 
-    always @(posedge clk)begin
-        pc <= pc + 4;
-    end
-    assign instr_mem_address = pc_add4;
+    assign pc_add4 = pc + 4;
+    assign instr_mem_address = pc;
 
     /** [step 2] Instruction Decode
      * Let the processor understand what the instruction means & how to process this instruction.
@@ -141,7 +142,6 @@ module single_cycle #(
      */
 
     // for register file
-    assign reg_file_reg_write =reg_write;
     assign reg_file_read_reg_1 = instr_mem_instr[25:21];
     assign reg_file_read_reg_2 = instr_mem_instr[20:16];
 
@@ -150,13 +150,18 @@ module single_cycle #(
 
     //for sign-extend unit
     wire [31:0] sign_extend;
-    assign sign_extend = {16{instr_mem_instr[15]}, instr_mem_instr[15:0]};
+    assign sign_extend = {{16{instr_mem_instr[15]}}, instr_mem_instr[15:0]};
 
     //for alu-control
-    assign funct = instr_mem_instr[5:0];
+    assign alu_control_funct = instr_mem_instr[5:0];
     assign alu_control_alu_op = alu_op;
 
-
+    //li
+    wire [15:0] immediate;
+    wire [31:0] upper, lower;
+    assign immediate = instr_mem_instr[15:0];
+    assign upper = {immediate, 16'b0};
+    assign lower = {16'b0, immediate};
     /** [step 3] Execution
      * The processor execute the instruction using ALU.
      * e.g. calculate result of R-type instr, address of load/store, branch or not.
@@ -172,16 +177,12 @@ module single_cycle #(
 
     //for ALU
     assign  alu_a = reg_file_read_data_1;
-    assign alu_b = (alu_src == 0)?reg_file_read_data_2:sign_extend;
-    assign alu_ALU_ctl = alu_control_operation;
+    assign alu_b = (alu_src == 0)?reg_file_read_data_2 : sign_extend;
+    assign alu_ALU_ctl = (lui_op | ori_op)? 4'b0010 : alu_control_operation;
 
     //for PC
-    always @(posedge clk)begin
-        if((branch & alu_zero) == 0)
-            pc <= pc_add4;
-        else
-            pc <= pc_add4 + (sign_extend << 2);
-    end
+    wire [31:0] pc_add4_shift;
+    assign pc_add4_shift = ((branch & alu_zero) == 0)?(pc_add4) : (pc_add4 + (sign_extend << 2));
 
     /** [step 4] Memory
      * The processor interact with Data Memory to execute load/store instr.
@@ -208,8 +209,9 @@ module single_cycle #(
      */
 
     //for register file
-    assign reg_file_write_data = (mem_to_reg == 0)?alu_result:data_mem_read_data;
+    assign reg_file_write_data = (lui_op)? upper: (ori_op)? (reg_file_read_data_1 | lower) : (mem_to_reg) ? data_mem_read_data : alu_result;
     assign reg_file_reg_write = reg_write;
+    assign reg_file_write_reg = (reg_dst == 0)?instr_mem_instr[20:16]:instr_mem_instr[15:11];
 
     /** [step 6] Clocking (sequential logic)
      * This define the behavior of processor when a new clock cycle comes.
@@ -223,13 +225,22 @@ module single_cycle #(
      * What else needs to be done besides clearing Register File when reset?
      * Important: our processor executes instruction at 0x00400000 when booted.
      */
+
+    wire [31:0] jump_select;
+    wire [27:0] instr_shift2;
+    wire [31:0] jump_address;
+    
+    //for jump
+    assign jump_address = {pc_add4[31:28], instr_shift2};
+    assign jump_select = (jump == 0)?pc_add4_shift:jump_address;
+    assign instr_shift2 = instr_mem_instr[25:0] << 2;
+
     always @(posedge clk)
         if (rstn) begin
-            ???
+            pc <= jump_select;
         end
 
     always @(negedge rstn) begin
-        ???
+        pc <= TEXT_START;
     end
-
 endmodule
