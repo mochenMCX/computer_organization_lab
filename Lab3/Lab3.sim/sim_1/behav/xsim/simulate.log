@@ -1,0 +1,12 @@
+Time resolution is 1 ps
+#### tb_pipelined.sv ####
+==== Test  0 RUNNING ====
+number of instructions: 21 , exit @ 0x00400054
+run 23 cycles
+$20 expect 0x00000000 found 0x00000005
+==== Test  0 FAILED ====
+#### Test Result ####
+Passed  0 :
+Failed  1 : 0
+#### some failed.
+$finish called at time : 96 ns : File "D:/user/Desktop/for_lab/Lab3/testbench/tb_pipelined.sv" Line 66

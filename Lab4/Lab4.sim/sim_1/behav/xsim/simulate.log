@@ -1,0 +1,11 @@
+Time resolution is 1 ps
+#### tb_pipelined.sv ####
+==== Test  0 RUNNING ====
+number of instructions: 20 , exit @ 0x00400050
+run 27 cycles
+==== Test  0 PASSED ====
+#### Test Result ####
+Passed  1 : 0
+Failed  0 :
+#### all passed!
+$finish called at time : 112 ns : File "D:/user/Desktop/for_lab/Lab4/testbench/tb_pipelined.sv" Line 66
